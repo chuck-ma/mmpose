@@ -51,6 +51,9 @@ def process_one_image(args,
     if isinstance(img, str):
         img = mmcv.imread(img, channel_order='rgb')
     elif isinstance(img, np.ndarray):
+        # 直接把背景换为纯黑色
+        print('background changed to black')
+        img = np.zeros_like(img)
         img = mmcv.bgr2rgb(img)
 
     if visualizer is not None:
@@ -236,6 +239,7 @@ def main():
                 break
 
             # topdown pose estimation
+
             pred_instances = process_one_image(args, frame, detector,
                                                pose_estimator, visualizer,
                                                0.001)
